@@ -37,6 +37,18 @@ public class RecipeController {
         return recipeService.updateRecipe(id, recipe);
     }
 
+    @GetMapping("/getAll")
+    @ResponseBody
+    public List<RecipeDto> getAll() {
+        return recipeService.getAllRecipes();
+    }
+
+    @GetMapping("/search")
+    @ResponseBody
+    public List<RecipeDto> search(@RequestParam String query) {
+        return recipeService.search(query);
+    }
+
     @GetMapping("/findByAuthor/{author}")
     public List<RecipeDto> getAllRecipesByAuthor(@PathVariable String author) {
         return recipeService.getAllRecipesByAuthor(author);

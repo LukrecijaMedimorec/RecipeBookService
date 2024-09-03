@@ -12,6 +12,7 @@ public class RecipeMapper {
         recipeDto.setContent(recipeEntity.getContent());
         recipeDto.setAuthor(recipeEntity.getAuthor());
         recipeDto.setTags(recipeEntity.getTags());
+        recipeDto.setTitle(recipeEntity.getTitle());
         return recipeDto;
     }
 
@@ -20,6 +21,7 @@ public class RecipeMapper {
         recipeEntity.setContent(addRecipeDto.getContent());
         recipeEntity.setAuthor(addRecipeDto.getAuthor());
         recipeEntity.setTags(addRecipeDto.getTags());
+        recipeEntity.setTitle(addRecipeDto.getTitle());
         return recipeEntity;
     }
 
@@ -29,6 +31,7 @@ public class RecipeMapper {
         recipeEntity.setContent(addRecipeDto.getContent());
         recipeEntity.setAuthor(addRecipeDto.getAuthor());
         recipeEntity.setTags(addRecipeDto.getTags());
+        recipeEntity.setTitle(addRecipeDto.getTitle());
         return recipeEntity;
     }
 }
