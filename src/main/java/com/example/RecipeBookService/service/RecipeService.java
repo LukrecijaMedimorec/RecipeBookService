@@ -25,6 +25,15 @@ public class RecipeService {
         return recipeEntity.orElseThrow(() -> new RecipeNotFoundException("Recipe not found!"));
     }
 
+    public List<RecipeDto> getAllRecipes() {
+        List<RecipeEntity> recipeEntities = recipeRepository.findAll();
+        List<RecipeDto> recipeDtos = new ArrayList<>();
+        for (RecipeEntity recipeEntity : recipeEntities) {
+            recipeDtos.add(RecipeMapper.fromEntity(recipeEntity));
+        }
+        return recipeDtos;
+    }
+
     public RecipeDto addRecipe(RecipeEntity recipeEntity) {
         return RecipeMapper.fromEntity(recipeRepository.save(recipeEntity));
     }
@@ -52,6 +61,18 @@ public class RecipeService {
 
     public List<RecipeDto> getAllContaining(String text) {
         List<RecipeEntity> recipeEntities = recipeRepository.findAllByContentContaining(text);
+
+        List<RecipeDto> recipeDtos = new ArrayList<>();
+
+        for (RecipeEntity recipeEntity : recipeEntities) {
+            recipeDtos.add(RecipeMapper.fromEntity(recipeEntity));
+        }
+
+        return recipeDtos;
+    }
+
+    public List<RecipeDto> search(String text) {
+        List<RecipeEntity> recipeEntities = recipeRepository.searchRecipes(text);
 
         List<RecipeDto> recipeDtos = new ArrayList<>();
 

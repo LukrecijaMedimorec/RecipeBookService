@@ -5,7 +5,6 @@ import com.example.RecipeBookService.model.dto.RecipeDto;
 import com.example.RecipeBookService.model.dto.mapper.RecipeMapper;
 import com.example.RecipeBookService.service.RecipeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +16,6 @@ public class RecipeController {
     private final RecipeService recipeService;
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public RecipeDto create(@RequestBody AddRecipeDto recipe) {
         return recipeService.addRecipe(RecipeMapper.fromDto(recipe));
     }
@@ -37,6 +35,18 @@ public class RecipeController {
     @ResponseBody
     public RecipeDto update(@PathVariable Long id, @RequestBody AddRecipeDto recipe) {
         return recipeService.updateRecipe(id, recipe);
+    }
+
+    @GetMapping("/getAll")
+    @ResponseBody
+    public List<RecipeDto> getAll() {
+        return recipeService.getAllRecipes();
+    }
+
+    @GetMapping("/search")
+    @ResponseBody
+    public List<RecipeDto> search(@RequestParam String query) {
+        return recipeService.search(query);
     }
 
     @GetMapping("/findByAuthor/{author}")
