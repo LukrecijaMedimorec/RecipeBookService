@@ -1,5 +1,6 @@
 package com.example.RecipeBookService.config;
 
+import com.example.RecipeBookService.user.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,12 +19,17 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
+  private final UserRepository userRepository;
   @Value("${application.security.jwt.secret-key}")
   private String secretKey;
   @Value("${application.security.jwt.expiration}")
   private long jwtExpiration;
   @Value("${application.security.jwt.refresh-token.expiration}")
   private long refreshExpiration;
+
+  public JwtService(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
   public String extractUsername(String token) {
     return extractClaim(token, Claims::getSubject);
@@ -58,7 +64,7 @@ public class JwtService {
   ) {
     return Jwts
             .builder()
-            .setClaims(extraClaims)
+            .setClaims(Map.of("role",userRepository.findByEmail(userDetails.getUsername()).get().getRole()))
             .setSubject(userDetails.getUsername())
             .setIssuedAt(new Date(System.currentTimeMillis()))
             .setExpiration(new Date(System.currentTimeMillis() + expiration))
